@@ -1,8 +1,8 @@
-var express=require('express')
-var bodyparser=require('body-parser')
+var express = require('express')
+var bodyparser = require('body-parser')
 var app = express()
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
@@ -15,14 +15,11 @@ app.use(bodyparser.urlencoded({
 
 app.get('/', (request, response) => {
     response.send('ok');
-  
+
 })
 
-app.use('/login',require('./models/user.js'));
+app.use('/login', require('./models/user.js'));
 
-app.listen(8886,function(){
+app.listen(8886, function () {
     console.log('Server Running');
 })
-
-
-
