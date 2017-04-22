@@ -141,4 +141,17 @@ router.post('/submit_pickup', (request, response) => {
         });
     })
 })
+
+//for booking history of a single user,append email id of the user at the end of the string
+router.get('/booking_history', (request, response) => {
+    user_request.findAll({
+        where: {
+            user_email: request.query.user_email
+        }
+    }).then((user_request) => {
+        console.log(user_request);
+        response.send(user_request);
+
+    })
+})
 module.exports = router;
