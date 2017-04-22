@@ -18,7 +18,7 @@ app.get('/', (request, response) => {
 
 })
 
-app.use('/login', require('./models/user.js'));
+app.use('/register', require('./models/user.js'));
 
 app.listen(8886, function () {
     console.log('Server Running');
