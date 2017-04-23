@@ -200,4 +200,7 @@ router.post('/change_password', (request, response) => {
         }
     })
 })
+
+//for updating total credits of the user
+
 module.exports = router;
