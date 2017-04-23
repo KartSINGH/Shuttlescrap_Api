@@ -70,39 +70,65 @@ user_request.sync();
 //Route for submitting user deatils for registration
 router.post('/submit_user', (request, response) => {
     data_body = request.body;
-    user.create({
-        user_id: data_body.user_id,
-        phone_number: data_body.phone_number,
-        user_email: data_body.user_email,
-        user_name: data_body.user_name,
-        user_password: data_body.user_password,
-        user_credits: data_body.user_credits
-    }).then(function (user_name) {
-        var name = user_name;
-
-        var transporter = nodemailer.createTransport({
-
-            service: 'Gmail',
-            auth: {
-                user: 'kart.singh15@gmail.com',
-                pass: 'dragonballzee'
-            },
-        });
-        var text = "Greetings " + name.user_name + " from ScrApp team! " + "Your account has been succssfully opened with us.#keeprecycling #shuttlescrap";
-        var mailOptions = {
-            to: name.user_email,
-            from: 'info@scrapp.in',
-            subject: 'ScrApp || Srcap Pickup Response',
-            text: text
+    console.log("checkpoint1"+data_body.user_email);
+    console.log(user);
+    var check=false;
+    user.find({
+        where: {
+            user_email: data_body.user_email
         }
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                response.send(error)
-            } else {
-                response.send('email sent');
-            }
-        });
+       
+    }).then((user) => {
+        if (user) {
+            check=false;
+            console.log("check1"+check);
+             console.log("checkpoint2"+data_body.user_email);
+            response.send("Email id exists.Please login")
+        } else {
+            check=true;
+         
+        }
     })
+    console.log("check2"+check);
+    if(check){
+       console.log("check3"+check);
+            user.create({
+                user_id: data_body.user_id,
+                phone_number: data_body.phone_number,
+                user_email: data_body.user_email,
+                user_name: data_body.user_name,
+                user_password: data_body.user_password,
+                user_credits: data_body.user_credits
+            }).then(function (user_name) {
+                var name = user_name;
+
+                var transporter = nodemailer.createTransport({
+
+                    service: 'Gmail',
+                    auth: {
+                        user: 'kart.singh15@gmail.com',
+                        pass: 'dragonballzee'
+                    },
+                });
+                var text = "Greetings " + name.user_name + " from ScrApp team! " + "Your account has been succssfully opened with us.#keeprecycling #shuttlescrap";
+                var mailOptions = {
+                    to: name.user_email,
+                    from: 'info@scrapp.in',
+                    subject: 'ScrApp || Srcap Pickup Response',
+                    text: text
+                }
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        response.send(error)
+                    } else {
+                        response.send('email sent');
+                    }
+                });
+            })
+    }else{
+        
+                response.send("user exists bro!")
+    }
 })
 //Route for storing all the pickups initiated by all users
 router.post('/submit_pickup', (request, response) => {
@@ -152,6 +178,23 @@ router.get('/booking_history', (request, response) => {
         console.log(user_request);
         response.send(user_request);
 
+    })
+})
+
+//for changing the password of the user in the console panel
+router.post('/change_password', (request, response) => {
+    data_body = request.body;
+    user.find({
+        where: {
+            user_email: data_body.user_email
+        }
+    }).then((user) => {
+        if (user) {
+            user.updateAttributes({
+                user_password: data_body.user_password
+            })
+            response.send("password changed");
+        }
     })
 })
 module.exports = router;
