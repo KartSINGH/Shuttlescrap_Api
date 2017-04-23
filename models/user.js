@@ -70,28 +70,28 @@ user_request.sync();
 //Route for submitting user deatils for registration
 router.post('/submit_user', (request, response) => {
     data_body = request.body;
-    console.log("checkpoint1"+data_body.user_email);
+    console.log("checkpoint1" + data_body.user_email);
     console.log(user);
-    var check=false;
+    var check = false;
+
     user.find({
         where: {
             user_email: data_body.user_email
         }
-       
+
     }).then((user) => {
         if (user) {
-            check=false;
-            console.log("check1"+check);
-             console.log("checkpoint2"+data_body.user_email);
+            check = false;
+            console.log("check1" + check);
+            console.log("checkpoint2" + data_body.user_email);
             response.send("Email id exists.Please login")
         } else {
-            check=true;
-         
+            check = true;
+
         }
-    })
-    console.log("check2"+check);
-    if(check){
-       console.log("check3"+check);
+    }).then(() => {
+        if (check) {
+            console.log("check3" + check);
             user.create({
                 user_id: data_body.user_id,
                 phone_number: data_body.phone_number,
@@ -125,10 +125,13 @@ router.post('/submit_user', (request, response) => {
                     }
                 });
             })
-    }else{
-        
-                response.send("user exists bro!")
-    }
+        } else {
+
+            response.send("user exists bro!")
+        }
+    })
+
+
 })
 //Route for storing all the pickups initiated by all users
 router.post('/submit_pickup', (request, response) => {
