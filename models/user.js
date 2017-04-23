@@ -202,5 +202,19 @@ router.post('/change_password', (request, response) => {
 })
 
 //for updating total credits of the user
-
+router.post('/change_credits',(request,response)=>{
+    data_body=request.body;
+    user.find({
+        where:{
+            user_email: data_body.user_email
+        }
+    }).then((user)=>{
+        if(user){
+        user.updateAttributes({
+            user_credits: data_body.user_credits
+        })
+        response.send("Credits Updated")
+        }
+    })
+})
 module.exports = router;
