@@ -26,7 +26,7 @@ var router = require('express').Router(),
             type: sequelize.STRING,
             allowNull: false
         },
-        user_credits: {
+        user_totalcredits: {
             type: sequelize.STRING,
             allowNull: false
         },
@@ -59,6 +59,14 @@ user_request = connection.seq.define('user_request', {
     },
     time: {
         type: sequelize.STRING,
+        allowNull: false
+    },
+    booking_credits: {
+        type: sequelize.INTEGER,
+        allowNull: false
+    },
+    booking_status: {
+        type: sequelize.INTEGER,
         allowNull: false
     }
 }, {
@@ -98,7 +106,7 @@ router.post('/submit_user', (request, response) => {
                 user_email: data_body.user_email,
                 user_name: data_body.user_name,
                 user_password: data_body.user_password,
-                user_credits: data_body.user_credits
+                user_totalcredits: data_body.user_totalcredits
             }).then(function (user_name) {
                 var name = user_name;
 
@@ -142,7 +150,9 @@ router.post('/submit_pickup', (request, response) => {
         user_name: data_body.user_name,
         res_address: data_body.res_address,
         scrap_amount: data_body.scrap_amount,
-        time: data_body.time
+        time: data_body.time,
+        booking_credits:data_body.booking_credits,
+        booking_status:data_body.booking_status
     }).then(function (user_name) {
         var name = user_name;
 
@@ -211,10 +221,43 @@ router.post('/change_credits',(request,response)=>{
     }).then((user)=>{
         if(user){
         user.updateAttributes({
-            user_credits: data_body.user_credits
+            user_totalcredits: data_body.user_totalcredits
         })
         response.send("Credits Updated")
         }
     })
+})
+//setting status of booking
+router.post('/change_status',(request,response)=>{
+    data_body=request.body;
+    user_request.find({
+        where:{
+            booking_id: data_body.booking_id
+        }
+    }).then((user_request)=>{
+        if(user_request){
+            user_request.updateAttributes({
+                booking_status:data_body.booking_status
+            })
+            response.send("status changed")
+            }
+        })
+})
+//fetching specific record through booking_id
+router.post('/get_booking',(request,response)=>{
+    data_body=request.body;
+    user_request.find({
+        where:{
+            booking_id: data_body.booking_id
+        }
+    }).then((user_request)=>{
+        if(user_request){
+            response.send(user_request);
+        }else{
+            response.send("booking id not found")
+        }
+
+        })
+    
 })
 module.exports = router;
