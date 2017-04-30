@@ -151,8 +151,8 @@ router.post('/submit_pickup', (request, response) => {
         res_address: data_body.res_address,
         scrap_amount: data_body.scrap_amount,
         time: data_body.time,
-        booking_credits:data_body.booking_credits,
-        booking_status:data_body.booking_status
+        booking_credits: data_body.booking_credits,
+        booking_status: data_body.booking_status
     }).then(function (user_name) {
         var name = user_name;
 
@@ -212,72 +212,77 @@ router.post('/change_password', (request, response) => {
 })
 
 //for updating total credits of the user
-router.post('/change_credits',(request,response)=>{
-    data_body=request.body;
+router.post('/change_credits', (request, response) => {
+    data_body = request.body;
     user.find({
-        where:{
+        where: {
             user_email: data_body.user_email
         }
-    }).then((user)=>{
-        if(user){
-        user.updateAttributes({
-            user_totalcredits: data_body.user_totalcredits
-        })
-        response.send("Credits Updated")
+    }).then((user) => {
+        if (user) {
+            user.updateAttributes({
+                user_totalcredits: data_body.user_totalcredits
+            })
+            response.send("Credits Updated")
         }
     })
 })
 //setting status of booking
-router.post('/change_status',(request,response)=>{
-    data_body=request.body;
+router.post('/change_status', (request, response) => {
+    data_body = request.body;
     user_request.find({
-        where:{
+        where: {
             booking_id: data_body.booking_id
         }
-    }).then((user_request)=>{
-        if(user_request){
+    }).then((user_request) => {
+        if (user_request) {
             user_request.updateAttributes({
-                booking_status:data_body.booking_status
+                booking_status: data_body.booking_status
             })
             response.send("status changed")
-            }
-        })
+        }
+    })
 })
 //fetching specific record through booking_id
-router.post('/get_booking',(request,response)=>{
-    data_body=request.body;
+router.post('/get_booking', (request, response) => {
+    data_body = request.body;
     user_request.find({
-        where:{
+        where: {
             booking_id: data_body.booking_id
         }
-    }).then((user_request)=>{
-        if(user_request){
+    }).then((user_request) => {
+        if (user_request) {
             response.send(user_request);
-        }else{
+        } else {
             response.send("booking id not found")
         }
 
-        })
-    
+    })
+
 })
 //getting all the users
-router.get('/all_users',(request, response)=>{
-    data_body=request.body;
+router.get('/all_users', (request, response) => {
+    data_body = request.body;
     user.findAll()
-    .then((user)=>{
-        response.send(user);
-    })
+        .then((user) => {
+            response.send(user);
+        })
 })
 
 //getting user id for password
-router.post('/user',(request,response)=>{
-    data_body=request.body;
+router.post('/user', (request, response) => {
+   
+        data_body = request.body
+    
+
     user.find({
+        where:{
         user_email: data_body.user_email
-    }).then((user)=>{
-        if(user){
+        }
+    }).then((user) => {
+        if (user) {
             response.send(user);
-        }else{
+        } else {
             response.send("error")
         }
     })
