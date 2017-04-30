@@ -260,4 +260,26 @@ router.post('/get_booking',(request,response)=>{
         })
     
 })
+//getting all the users
+router.get('/all_users',(request, response)=>{
+    data_body=request.body;
+    user.findAll()
+    .then((user)=>{
+        response.send(user);
+    })
+})
+
+//getting user id for password
+router.post('/user',(request,response)=>{
+    data_body=request.body;
+    user.find({
+        user_email: data_body.user_email
+    }).then((user)=>{
+        if(user){
+            response.send(user);
+        }else{
+            response.send("error")
+        }
+    })
+})
 module.exports = router;
