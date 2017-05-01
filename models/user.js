@@ -65,6 +65,23 @@ user_request = connection.seq.define('user_request', {
         type: sequelize.INTEGER,
         allowNull: false
     },
+     payment_method: {
+        type: sequelize.INTEGER,
+        allowNull: false
+    },
+    
+    bankaccount_details: {
+        type: sequelize.INTEGER,
+        allowNull: true
+    },
+     wallet_details: {
+        type: sequelize.INTEGER,
+        allowNull: true
+    },
+    ifsc_details: {
+        type: sequelize.INTEGER,
+        allowNull: true
+    },
     booking_status: {
         type: sequelize.INTEGER,
         allowNull: false
@@ -152,6 +169,10 @@ router.post('/submit_pickup', (request, response) => {
         scrap_amount: data_body.scrap_amount,
         time: data_body.time,
         booking_credits: data_body.booking_credits,
+        payment_method:data_body.payment_method,
+        wallet_details:data_body.wallet_details,
+        bankaccount_details:data_body.bankaccount_details,
+        ifsc_details:data_body.ifsc_details,
         booking_status: data_body.booking_status
     }).then(function (user_name) {
         var name = user_name;
@@ -182,10 +203,10 @@ router.post('/submit_pickup', (request, response) => {
 })
 
 //for booking history of a single user,append email id of the user at the end of the string
-router.get('/booking_history', (request, response) => {
+router.post('/booking_history', (request, response) => {
     user_request.findAll({
         where: {
-            user_email: request.query.user_email
+            user_email: request.body.user_email
         }
     }).then((user_request) => {
         console.log(user_request);
