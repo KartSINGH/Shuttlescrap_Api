@@ -74,10 +74,7 @@ user_request = connection.seq.define('user_request', {
         type: sequelize.INTEGER,
         allowNull: true
     },
-     wallet_details: {
-        type: sequelize.INTEGER,
-        allowNull: true
-    },
+     
     ifsc_details: {
         type: sequelize.INTEGER,
         allowNull: true
@@ -170,7 +167,6 @@ router.post('/submit_pickup', (request, response) => {
         time: data_body.time,
         booking_credits: data_body.booking_credits,
         payment_method:data_body.payment_method,
-        wallet_details:data_body.wallet_details,
         bankaccount_details:data_body.bankaccount_details,
         ifsc_details:data_body.ifsc_details,
         booking_status: data_body.booking_status
