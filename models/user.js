@@ -65,16 +65,16 @@ user_request = connection.seq.define('user_request', {
         type: sequelize.INTEGER,
         allowNull: false
     },
-     payment_method: {
+    payment_method: {
         type: sequelize.INTEGER,
         allowNull: false
     },
-    
+
     bankaccount_details: {
         type: sequelize.INTEGER,
         allowNull: true
     },
-     
+
     ifsc_details: {
         type: sequelize.INTEGER,
         allowNull: true
@@ -166,9 +166,9 @@ router.post('/submit_pickup', (request, response) => {
         scrap_amount: data_body.scrap_amount,
         time: data_body.time,
         booking_credits: data_body.booking_credits,
-        payment_method:data_body.payment_method,
-        bankaccount_details:data_body.bankaccount_details,
-        ifsc_details:data_body.ifsc_details,
+        payment_method: data_body.payment_method,
+        bankaccount_details: data_body.bankaccount_details,
+        ifsc_details: data_body.ifsc_details,
         booking_status: data_body.booking_status
     }).then(function (user_name) {
         var name = user_name;
@@ -288,13 +288,13 @@ router.get('/all_users', (request, response) => {
 
 //getting user id for password
 router.post('/user', (request, response) => {
-   
-        data_body = request.body
-    
+
+    data_body = request.body
+
 
     user.find({
-        where:{
-        user_email: data_body.user_email
+        where: {
+            user_email: data_body.user_email
         }
     }).then((user) => {
         if (user) {
