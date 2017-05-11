@@ -62,25 +62,25 @@ user_request = connection.seq.define('user_request', {
         allowNull: false
     },
     booking_credits: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: false
     },
     payment_method: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: false
     },
 
     bankaccount_details: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: true
     },
 
     ifsc_details: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: true
     },
     booking_status: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: false
     }
 }, {
