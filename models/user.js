@@ -92,6 +92,7 @@ user_request.sync();
 //Route for submitting user deatils for registration
 router.post('/submit_user', (request, response) => {
     data_body = request.body;
+    console.log(data_body);
     console.log("checkpoint1" + data_body.user_email);
     console.log(user);
     var check = false;
@@ -113,7 +114,7 @@ router.post('/submit_user', (request, response) => {
         }
     }).then(() => {
         if (check) {
-            console.log("check3" + check);
+            
             user.create({
                 user_id: data_body.user_id,
                 phone_number: data_body.phone_number,
