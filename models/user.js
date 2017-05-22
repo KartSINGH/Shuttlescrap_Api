@@ -87,8 +87,69 @@ user_request = connection.seq.define('user_request', {
     freezeTableName: true,
     timestamps: true
 })
+ phones = connection.seq.define('phones', {
+        phone_id: {
+            type: sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        phone_name: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+        phone_brand: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+        phone_image: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+
+    }, {
+        freezeTableName: true,
+        timestamps: true
+    })
 user.sync();
 user_request.sync();
+phones.sync();
+//Route for storing phone info
+router.post('/submit_phone',(request, response) =>{
+    data_body = request.body;
+    console.log("Entering Data");
+    phones.create({
+        phone_id:data_body.phone_id,
+        phone_name:data_body.phone_name,
+        phone_brand:data_body.phone_brand,
+        phone_image:data_body.phone_image
+    }).then(function(phone_name){
+        if(phone_name){
+        response.send("Data Stored")
+        }else{
+            response.send("Error");
+        }
+    })
+});
+
+//Route for getting all mobile names
+router.get('/all_phones',(request, response)=>{
+    phones.findAll()
+    .then((phones)=>{
+         console.log("ok");
+        response.send(phones);
+       
+    });
+});
+//Router for getting mobiles of a specific brand
+router.post('/get_mobiles',(request, response)=>{
+    phones.findAll({
+        where:{
+            phone_brand:request.body.phone_brand
+        }
+    }).then(function(phones){
+        response.send(phones);
+    })
+})
 //Route for submitting user deatils for registration
 router.post('/submit_user', (request, response) => {
     data_body = request.body;

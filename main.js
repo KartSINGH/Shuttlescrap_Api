@@ -20,6 +20,6 @@ app.get('/', (request, response) => {
 
 app.use('/register', require('./models/user.js'));
 
-app.listen(8886, function () {
+app.listen(8888, function () {
     console.log('Server Running');
 })
