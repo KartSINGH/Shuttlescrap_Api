@@ -22,10 +22,30 @@ var router = require('express').Router(),
     }, {
         freezeTableName: true,
         timestamps: true
+    });
+
+     hard_drives = connection.seq.define('hard_drives', {
+        id: {
+            type: sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        drive_size: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+        drive_price: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+
+    }, {
+        freezeTableName: true,
+        timestamps: true
     })
 
 ram.sync();
-
+hard_drives.sync();
 /*****  Route for storing Ram Information *****/
 
 router.post('/submit_ram',(request, response) =>{
@@ -83,4 +103,63 @@ router.post('/change_ram_price', (request, response) => {
     })
 })
 
+
+
+
+/*****  Route for storing Hard Drive Information *****/
+
+router.post('/submit_hard_drive',(request, response) =>{
+    data_body = request.body;
+    console.log("Entering Data");
+    hard_drives.create({
+        id:data_body.id,
+        drive_size:data_body.drive_size,
+        drive_price:data_body.drive_price,
+    }).then(function(drive_size){
+        if(drive_size){
+        response.send("Data Stored")
+        }else{
+            response.send("Error");
+        }
+    })
+});
+
+/*****  Route for fetching all HDD info at once ******/
+
+router.get('/all_hard_drives',(request, response)=>{
+    hard_drives.findAll()
+    .then((hard_drives)=>{
+         console.log("ok");
+        response.send(hard_drives);
+       
+    });
+});
+/***  Route for fetching price of a specific HDD ***/
+router.post('/get_hard_drive',(request, response)=>{
+    hard_drives.findAll({
+        where:{
+            drive_size:request.body.drive_size
+        }
+    }).then(function(hard_drives){
+        response.send(hard_drives);
+    });
+});
+
+/*** Route for updating price of one single HDD size ***/
+
+router.post('/change_hard_drive_price', (request, response) => {
+    data_body = request.body;
+    hard_drives.find({
+        where: {
+            drive_size: data_body.drive_size
+        }
+    }).then((hard_drives) => {
+        if (hard_drives) {
+            hard_drives.updateAttributes({
+                drive_price: data_body.drive_price
+            })
+            response.send("HARD DRIVE Price Changed");
+        }
+    })
+})
 module.exports = router;
