@@ -63,10 +63,30 @@ var router = require('express').Router(),
         freezeTableName: true,
         timestamps: true
     });
+      graphic_card = connection.seq.define('graphic_card', {
+        card_id: {
+            type: sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        card_size: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+        card_price: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+
+    }, {
+        freezeTableName: true,
+        timestamps: true
+    });
 
 ram.sync();
 hard_drives.sync();
 processor.sync();
+graphic_card.sync();
 
 /*****  Route for storing Ram Information *****/
 
@@ -243,4 +263,62 @@ router.post('/change_processor_price', (request, response) => {
         }
     })
 })
+
+/*****  Route for storing Graphic Card Information *****/
+
+router.post('/submit_card',(request, response) =>{
+    data_body = request.body;
+    console.log("Entering Data");
+    graphic_card.create({
+        card_id:data_body.card_id,
+        card_size:data_body.card_size,
+        card_price:data_body.card_price,
+    }).then(function(card_size){
+        if(card_size){
+        response.send("Data Stored")
+        }else{
+            response.send("Error");
+        }
+    })
+});
+
+/*****  Route for fetching all ram info at once ******/
+
+router.get('/all_cards',(request, response)=>{
+    graphic_card.findAll()
+    .then((graphic_card)=>{
+         console.log("ok");
+        response.send(graphic_card);
+       
+    });
+});
+/***  Route for fetching price of a specific ram ***/
+router.post('/get_card',(request, response)=>{
+    graphic_card.findAll({
+        where:{
+            card_size:request.body.card_size
+        }
+    }).then(function(graphic_card){
+        response.send(graphic_card);
+    });
+});
+
+/*** Route for updating price of one single ram size ***/
+
+router.post('/change_card_price', (request, response) => {
+    data_body = request.body;
+    graphic_card.find({
+        where: {
+            card_size: data_body.card_size
+        }
+    }).then((graphic_card) => {
+        if (graphic_card) {
+            graphic_card.updateAttributes({
+                card_price: data_body.card_price
+            })
+            response.send("Card Price Changed");
+        }
+    })
+})
+
 module.exports = router;
