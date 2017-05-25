@@ -24,64 +24,64 @@ var router = require('express').Router(),
         timestamps: true
     });
 
-     hard_drives = connection.seq.define('hard_drives', {
-        id: {
-            type: sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        drive_size: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
-        drive_price: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
+hard_drives = connection.seq.define('hard_drives', {
+    id: {
+        type: sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    drive_size: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
+    drive_price: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
 
-    }, {
-        freezeTableName: true,
-        timestamps: true
-    });
+}, {
+    freezeTableName: true,
+    timestamps: true
+});
 
-    processor = connection.seq.define('processor', {
-        processor_id: {
-            type: sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        processor_name: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
-        processor_price: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
+processor = connection.seq.define('processor', {
+    processor_id: {
+        type: sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    processor_name: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
+    processor_price: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
 
-    }, {
-        freezeTableName: true,
-        timestamps: true
-    });
-      graphic_card = connection.seq.define('graphic_card', {
-        card_id: {
-            type: sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        card_size: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
-        card_price: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
+}, {
+    freezeTableName: true,
+    timestamps: true
+});
+graphic_card = connection.seq.define('graphic_card', {
+    card_id: {
+        type: sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    card_size: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
+    card_price: {
+        type: sequelize.STRING,
+        allowNull: false,
+    },
 
-    }, {
-        freezeTableName: true,
-        timestamps: true
-    });
+}, {
+    freezeTableName: true,
+    timestamps: true
+});
 
 ram.sync();
 hard_drives.sync();
@@ -90,17 +90,17 @@ graphic_card.sync();
 
 /*****  Route for storing Ram Information *****/
 
-router.post('/submit_ram',(request, response) =>{
+router.post('/submit_ram', (request, response) => {
     data_body = request.body;
     console.log("Entering Data");
     ram.create({
-        id:data_body.id,
-        ram_size:data_body.ram_size,
-        ram_price:data_body.ram_price,
-    }).then(function(ram_size){
-        if(ram_size){
-        response.send("Data Stored")
-        }else{
+        id: data_body.id,
+        ram_size: data_body.ram_size,
+        ram_price: data_body.ram_price,
+    }).then(function (ram_size) {
+        if (ram_size) {
+            response.send("Data Stored")
+        } else {
             response.send("Error");
         }
     })
@@ -108,21 +108,21 @@ router.post('/submit_ram',(request, response) =>{
 
 /*****  Route for fetching all ram info at once ******/
 
-router.get('/all_ram',(request, response)=>{
+router.get('/all_ram', (request, response) => {
     ram.findAll()
-    .then((ram)=>{
-         console.log("ok");
-        response.send(ram);
-       
-    });
+        .then((ram) => {
+            console.log("ok");
+            response.send(ram);
+
+        });
 });
 /***  Route for fetching price of a specific ram ***/
-router.post('/get_mobiles',(request, response)=>{
+router.post('/get_mobiles', (request, response) => {
     ram.findAll({
-        where:{
-            ram_size:request.body.ram_size
+        where: {
+            ram_size: request.body.ram_size
         }
-    }).then(function(ram){
+    }).then(function (ram) {
         response.send(ram);
     });
 });
@@ -150,17 +150,17 @@ router.post('/change_ram_price', (request, response) => {
 
 /*****  Route for storing Hard Drive Information *****/
 
-router.post('/submit_hard_drive',(request, response) =>{
+router.post('/submit_hard_drive', (request, response) => {
     data_body = request.body;
     console.log("Entering Data");
     hard_drives.create({
-        id:data_body.id,
-        drive_size:data_body.drive_size,
-        drive_price:data_body.drive_price,
-    }).then(function(drive_size){
-        if(drive_size){
-        response.send("Data Stored")
-        }else{
+        id: data_body.id,
+        drive_size: data_body.drive_size,
+        drive_price: data_body.drive_price,
+    }).then(function (drive_size) {
+        if (drive_size) {
+            response.send("Data Stored")
+        } else {
             response.send("Error");
         }
     })
@@ -168,21 +168,21 @@ router.post('/submit_hard_drive',(request, response) =>{
 
 /*****  Route for fetching all HDD info at once ******/
 
-router.get('/all_hard_drives',(request, response)=>{
+router.get('/all_hard_drives', (request, response) => {
     hard_drives.findAll()
-    .then((hard_drives)=>{
-         console.log("ok");
-        response.send(hard_drives);
-       
-    });
+        .then((hard_drives) => {
+            console.log("ok");
+            response.send(hard_drives);
+
+        });
 });
 /***  Route for fetching price of a specific HDD ***/
-router.post('/get_hard_drive',(request, response)=>{
+router.post('/get_hard_drive', (request, response) => {
     hard_drives.findAll({
-        where:{
-            drive_size:request.body.drive_size
+        where: {
+            drive_size: request.body.drive_size
         }
-    }).then(function(hard_drives){
+    }).then(function (hard_drives) {
         response.send(hard_drives);
     });
 });
@@ -209,17 +209,17 @@ router.post('/change_hard_drive_price', (request, response) => {
 
 /*****  Route for storing Processor Information *****/
 
-router.post('/submit_processor',(request, response) =>{
+router.post('/submit_processor', (request, response) => {
     data_body = request.body;
     console.log("Entering Data");
     processor.create({
-        processor_id:data_body.processor_id,
-        processor_name:data_body.processor_name,
-        processor_price:data_body.processor_price,
-    }).then(function(processor_name){
-        if(processor_name){
-        response.send("Data Stored")
-        }else{
+        processor_id: data_body.processor_id,
+        processor_name: data_body.processor_name,
+        processor_price: data_body.processor_price,
+    }).then(function (processor_name) {
+        if (processor_name) {
+            response.send("Data Stored")
+        } else {
             response.send("Error");
         }
     })
@@ -227,21 +227,21 @@ router.post('/submit_processor',(request, response) =>{
 
 /*****  Route for fetching all Processor info at once ******/
 
-router.get('/all_processor',(request, response)=>{
+router.get('/all_processor', (request, response) => {
     processor.findAll()
-    .then((processor)=>{
-         console.log("ok");
-        response.send(processor);
-       
-    });
+        .then((processor) => {
+            console.log("ok");
+            response.send(processor);
+
+        });
 });
 /***  Route for fetching price of a specific Processor ***/
-router.post('/get_processor',(request, response)=>{
+router.post('/get_processor', (request, response) => {
     processor.findAll({
-        where:{
-            processor_name:request.body.processor_name
+        where: {
+            processor_name: request.body.processor_name
         }
-    }).then(function(processor){
+    }).then(function (processor) {
         response.send(processor);
     });
 });
@@ -266,17 +266,17 @@ router.post('/change_processor_price', (request, response) => {
 
 /*****  Route for storing Graphic Card Information *****/
 
-router.post('/submit_card',(request, response) =>{
+router.post('/submit_card', (request, response) => {
     data_body = request.body;
     console.log("Entering Data");
     graphic_card.create({
-        card_id:data_body.card_id,
-        card_size:data_body.card_size,
-        card_price:data_body.card_price,
-    }).then(function(card_size){
-        if(card_size){
-        response.send("Data Stored")
-        }else{
+        card_id: data_body.card_id,
+        card_size: data_body.card_size,
+        card_price: data_body.card_price,
+    }).then(function (card_size) {
+        if (card_size) {
+            response.send("Data Stored")
+        } else {
             response.send("Error");
         }
     })
@@ -284,21 +284,21 @@ router.post('/submit_card',(request, response) =>{
 
 /*****  Route for fetching all ram info at once ******/
 
-router.get('/all_cards',(request, response)=>{
+router.get('/all_cards', (request, response) => {
     graphic_card.findAll()
-    .then((graphic_card)=>{
-         console.log("ok");
-        response.send(graphic_card);
-       
-    });
+        .then((graphic_card) => {
+            console.log("ok");
+            response.send(graphic_card);
+
+        });
 });
 /***  Route for fetching price of a specific ram ***/
-router.post('/get_card',(request, response)=>{
+router.post('/get_card', (request, response) => {
     graphic_card.findAll({
-        where:{
-            card_size:request.body.card_size
+        where: {
+            card_size: request.body.card_size
         }
-    }).then(function(graphic_card){
+    }).then(function (graphic_card) {
         response.send(graphic_card);
     });
 });
