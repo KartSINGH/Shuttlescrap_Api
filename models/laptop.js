@@ -42,10 +42,32 @@ var router = require('express').Router(),
     }, {
         freezeTableName: true,
         timestamps: true
-    })
+    });
+
+    processor = connection.seq.define('processor', {
+        processor_id: {
+            type: sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        processor_name: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+        processor_price: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
+
+    }, {
+        freezeTableName: true,
+        timestamps: true
+    });
 
 ram.sync();
 hard_drives.sync();
+processor.sync();
+
 /*****  Route for storing Ram Information *****/
 
 router.post('/submit_ram',(request, response) =>{
@@ -159,6 +181,65 @@ router.post('/change_hard_drive_price', (request, response) => {
                 drive_price: data_body.drive_price
             })
             response.send("HARD DRIVE Price Changed");
+        }
+    })
+})
+
+
+
+/*****  Route for storing Processor Information *****/
+
+router.post('/submit_processor',(request, response) =>{
+    data_body = request.body;
+    console.log("Entering Data");
+    processor.create({
+        processor_id:data_body.processor_id,
+        processor_name:data_body.processor_name,
+        processor_price:data_body.processor_price,
+    }).then(function(processor_name){
+        if(processor_name){
+        response.send("Data Stored")
+        }else{
+            response.send("Error");
+        }
+    })
+});
+
+/*****  Route for fetching all Processor info at once ******/
+
+router.get('/all_processor',(request, response)=>{
+    processor.findAll()
+    .then((processor)=>{
+         console.log("ok");
+        response.send(processor);
+       
+    });
+});
+/***  Route for fetching price of a specific Processor ***/
+router.post('/get_processor',(request, response)=>{
+    processor.findAll({
+        where:{
+            processor_name:request.body.processor_name
+        }
+    }).then(function(processor){
+        response.send(processor);
+    });
+});
+
+/*** Route for updating price of one single Processor ***/
+
+router.post('/change_processor_price', (request, response) => {
+    data_body = request.body;
+    processor.find({
+        where: {
+            processor_name: data_body.processor_name
+        }
+    }).then((processor) => {
+        if (processor) {
+            processor.updateAttributes({
+                processor_price: data_body.processor_price
+            })
+            response.send("Processor Price Changed");
         }
     })
 })
