@@ -105,7 +105,10 @@ user_request = connection.seq.define('user_request', {
             type: sequelize.STRING,
             allowNull: false,
         },
-
+        phone_cprice: {
+            type: sequelize.STRING,
+            allowNull: false,
+        },
     }, {
         freezeTableName: true,
         timestamps: true
@@ -121,7 +124,8 @@ router.post('/submit_phone',(request, response) =>{
         phone_id:data_body.phone_id,
         phone_name:data_body.phone_name,
         phone_brand:data_body.phone_brand,
-        phone_image:data_body.phone_image
+        phone_image:data_body.phone_image,
+        phone_cprice:data_body.phone_cprice  
     }).then(function(phone_name){
         if(phone_name){
         response.send("Data Stored")
