@@ -154,6 +154,16 @@ router.post('/get_mobiles',(request, response)=>{
         response.send(phones);
     })
 })
+//route for getting phone using name
+router.post('/get_mobile_by_name',(request, response)=>{
+    phones.findAll({
+        where:{
+            phone_name:request.body.phone_name
+        }
+    }).then(function(phones){
+        response.send(phones);
+    })
+})
 //Route for submitting user deatils for registration
 router.post('/submit_user', (request, response) => {
     data_body = request.body;
