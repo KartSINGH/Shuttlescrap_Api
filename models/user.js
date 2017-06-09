@@ -248,35 +248,35 @@ router.post('/submit_pickup', (request, response) => {
         booking_status: data_body.booking_status
     }).then(function (user_name) {
         var name = user_name;
-        var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+" is to be picked up from " + name.res_address +" on"+name.time;
+        var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+"kg is to be picked up from " + name.res_address +" on "+name.time;
          var text = "Greetings " + name.user_name + " from ScrApp team! " + "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
         var transporter = nodemailer.createTransport({
 
-            service: 'Gmail',
+            service: 'Godaddy',
             auth: {
-                user: 'kart.singh15@gmail.com',
-                pass: 'dragonballzee'
+                user: 'info@scrapp.in',
+                pass: 'Rohan#123'
             },
         });
        
         var mailOptions = {
             to: name.user_email,
-            from: 'kart.singh15@gmail.com',
+            from: 'info@scrapp.in',
             subject: 'ScrApp || Srcap Pickup Response',
             text: text
         }
         
          var transporter1 = nodemailer.createTransport({
 
-            service: 'Gmail',
+            service: 'Godaddy',
             auth: {
-                user: 'kart.singh15@gmail.com',
-                pass: 'dragonballzee'
+                user: 'info@scrapp.in',
+                pass: 'Rohan#123'
             },
         });
          var mailOptions1 = {
             to: 'info@shuttlescrap.com',
-            from: 'kart.singh15@gmail.com',
+            from: 'info@scrapp.in',
             subject: 'Shuttlescrap || Srcap Pickup ',
             text: text1
         }
