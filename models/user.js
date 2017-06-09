@@ -260,17 +260,33 @@ router.post('/submit_pickup', (request, response) => {
         var text = "Greetings " + name.user_name + " from ScrApp team! " + "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
         var mailOptions = {
             to: name.user_email,
-            from: 'info@scrapp.in',
+            from: 'kart.singh15@gmail.com',
             subject: 'ScrApp || Srcap Pickup Response',
             text: text
         }
-        transporter.sendMail(mailOptions, function (error, info) {
+         var mailOptions1 = {
+            to: 'info@shuttlescrap.com',
+            from: 'kart.singh15@gmail.com',
+            subject: 'Shuttlescrap || Srcap Pickup ',
+            text: text
+        }
+        transporter.sendMail(mailOptions1, function (error, info) {
             if (error) {
                 response.send(error)
             } else {
                 response.send('booking email sent');
             }
         });
+
+        
+        var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+" is to be picked up from " + name.res_address +" on"+name.time;
+        transporter.sendMail(mailOptions1,function(error,info){
+            if(error){
+                console.log(error);
+            }else{
+                response.send("Email sent to ADMIN")
+            }
+        })
     })
 })
 
