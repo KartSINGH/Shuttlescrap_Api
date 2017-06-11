@@ -20,6 +20,7 @@ app.get('/', (request, response) => {
 
 app.use('/register', require('./models/user.js'));
 app.use('/laptop', require('./models/laptop.js'));
+app.use('/zone_data', require('./models/zones.js'));
 
 app.listen(8886, function () {
     console.log('Server Running');
