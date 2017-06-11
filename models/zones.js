@@ -66,6 +66,16 @@ router.post('/get_zone', (request, response) => {
     });
 });
 
+router.post('/get_sector', (request, response) => {
+    zones.findAll({
+        where: {
+            zone_name: request.body.zone_name
+        }
+    }).then(function (zone) {
+        response.send(zone);
+    });
+});
+
 /*** Route for zone of a sector ***/
 
 router.post('/change_zone', (request, response) => {
