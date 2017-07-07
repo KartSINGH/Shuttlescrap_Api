@@ -393,7 +393,7 @@ router.get('/all_bookings',(request, response) => {
     data_body = request.body;
     user_request.findAll()
     .then((user_request)=>{
-        resterponse.send(user_request)
+        response.send(user_request)
     })
 })
 
