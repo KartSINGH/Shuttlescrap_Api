@@ -379,7 +379,7 @@ router.post('/get_booking', (request, response) => {
     })
 
 })
-//getting all the users
+// getting all the users
 router.get('/all_users', (request, response) => {
     data_body = request.body;
     user.findAll()
@@ -387,6 +387,16 @@ router.get('/all_users', (request, response) => {
             response.send(user);
         })
 })
+
+// getting all bookings
+router.get('/all_bookings',(request, response) => {
+    data_body = request.body;
+    user_request.findAll()
+    .then((user_request)=>{
+        response.send(user_request)
+    })
+})
+
 
 //getting user id for password
 router.post('/user', (request, response) => {
