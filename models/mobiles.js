@@ -1,21 +1,52 @@
-var express = require('express')
-var bodyparser = require('body-parser')
-var app = express()
+var router = require('express').Router(),
+    connection = require('../connection'),
+    nodemailer = require('nodemailer'),
+    sequelize = connection.sequelize,
+    wellknown = require('nodemailer-wellknown'),
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    next()
-})
-app.use(bodyparser.json())
-app.use(bodyparser.urlencoded({
-    extended: true
-}))
+    mobiles = connection.seq.define('mobiles', {
+        id: {
+            type: sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        price: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        screen_size: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        description: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+       
+        image: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        product_name: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        os: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
 
-app.get('/', (request, response) => {
-var my = 
-[
+    }, {
+        freezeTableName: true,
+        timestamps: true
+    });
+
+
+mobiles.sync();
+/*****  Route for storing AC Information *****/
+
+router.get('/submit_mobiles', (request, response) => {
+    var data_body = [
 {"price": "\nRs 8,999\n - ", "desc": ["Smartphone, MIUI 8(Android OS v6.0 Mars...", "5.0 inches, 720 x 1280 pixels (~294 ppi...", "2G, 3G, 4G (LTE), 32GB, 3GB", "\n", "\n"], "image": "http://image.priceprice.k-img.com/global/images/product/mobilephones/Xiaomi_Redmi_3S_Prime/Xiaomi_Redmi_3S_Prime_S_1.jpg", "product_name": "Xiaomi Redmi 3S Prime"},
 {"price": "\nRs 5,999\n - ", "desc": ["Smartphone, MIUI 8 with Android OS, v6....", "5 inches, 720 x 1280 pixels", "2G, 3G, 4G (LTE), 16GB, 2GB", "\n", "\n"], "image": "http://image.priceprice.k-img.com/global/images/product/mobilephones/Xiaomi_Redmi_4a/Xiaomi_Redmi_4a_S_1.jpg", "product_name": "Xiaomi Redmi 4A"},
 {"price": "\nRs 9,999\n - ", "desc": ["Phablet, Smartphone, Android OS, v6.0 M...", "5.5 inches, 1920 x 1080", "2G, 3G, 4G (LTE), 64GB, 32GB, 2GB, 3GB,...", "\n", "\n"], "image": "http://image.priceprice.k-img.com/global/images/product/mobilephones/Xiaomi_Redmi_Note_4/Xiaomi_Redmi_Note_4_S_1.jpg", "product_name": "Xiaomi Redmi Note 4"},
@@ -2195,16 +2226,100 @@ var my =
 {"price": "\nRs 4,599\n", "desc": ["Smartphone, Android 6.0 Marshmallow", "4.7 inches (11.94cm), 1280x720", "2G, 3G, 4G (LTE), 8GB, 1GB", "\n", "\n"], "image": "http://image.priceprice.k-img.com/global/images/product/mobilephones/Intex_Aqua_Amaze_Plus/Intex_Aqua_Amaze_Plus_S_1.jpg", "product_name": "Intex Aqua Amaze+"},
 {"price": "\nRs 5,499\n", "desc": ["Smartphone, Android 6.0 Marshmallow", "5 inches (12.7 cm), 720X1280", "2G, 3G, 4G (LTE), 16GB, 2GB", "\n", "\n"], "image": "http://image.priceprice.k-img.com/global/images/product/mobilephones/Intex_Aqua_Supreme_Plus/Intex_Aqua_Supreme_Plus_S_1.jpg", "product_name": "Intex Aqua Supreme+"},
 {"price": "\nRs 7,994\n - ", "desc": ["Smartphone, Android 6.0 (Marshmallow)", "5 inches (12.7cm), HD(1280*720)", "2G, 3G, 4G (LTE), 16GB, 3GB", "\n", "\n"], "image": "http://image.priceprice.k-img.com/global/images/product/mobilephones/Panasonic_Eluga_Prim/Panasonic_Eluga_Prim_S_1.jpg", "product_name": "Panasonic Eluga Prim"}
-]
+];
+    console.log("Entering Data");
+    var a = {
+        os: '',
+        product_name: '',
+        ram:'',
+        image:'',
+        hdd:'',
+        description:'',
+        screen_size:'',
+        price:''
+    }
+    var b = [];
+    for (var i = 0; i < data_body.length; i++) {
+        console.log(data_body);
+        var price = data_body[i].price.split('\n');
+        var product_name = data_body[i].product_name;
+        var os = data_body[i].desc[0];
+        var image = data_body[i].image;
+        var screen_size = data_body[i].desc[1];
+        var fields = data_body[i].desc[2];
+        console.log("fields "+fields)
+        var description = fields;
+        
+        if (price[1] != "-" && product_name!="-" && os!="-" &&image!="-" &&screen_size!="-") {
+            a.price = price[1];
+            a.product_name = product_name;
+            a.os = os;
+            a.image=image;
+            a.screen_size=screen_size;
+            a.description = description;
+            
+            b[i] = {
+                price: a.price,
+                product_name: a.product_name,
+                os:a.os,
+                image:a.image,
+                screen_size:a.screen_size,
+                description:a.description,
+                
+            };
+            console.log(b[i]);
+            console.log('\n');
+            mobiles.create({
+                price: b[i].price,
+                product_name: b[i].product_name,
+                os:b[i].os,
+                description:b[i].description,
+                image:b[i].image,
+                
+                screen_size:b[i].screen_size
+            }).then(function (ac) {
+                if (ac) {
+                    console.log("Data Stored")
+                } else {
+                    console.log("Error");
+                }
+            })
+        }
 
-})
+    }
+    response.send("Done")
 
-app.use('/register', require('./models/user.js'));
-app.use('/laptop', require('./models/laptop.js'));
-app.use('/zone_data', require('./models/zones.js'));
-app.use('/ac', require('./models/ac.js'));
-app.use('/mobiles', require('./models/mobiles.js'));
+});
 
-app.listen(8885, function () {
-    console.log('Server Running');
-})
+/*****  Route for fetching all ac info at once ******/
+
+router.get('/all_mobiles', (request, response) => {
+   mobiles.findAll()
+        .then((mobil) => {
+            console.log("ok");
+            response.send(mobil);
+
+        });
+});
+/***  Route for fetching price of a specific ac based on type ***/
+router.post('/get_ac', (request, response) => {
+    ac.findAll({
+        where: {
+            type: request.body.type
+        }
+    }).then(function (ac) {
+        response.send(ac);
+    });
+});
+
+router.post('/get_ac_product_name', (request, response) => {
+    ac.findAll({
+        where: {
+            product_name: request.body.product_name
+        }
+    }).then(function (ac) {
+        response.send(ac);
+    });
+});
+
+module.exports = router;

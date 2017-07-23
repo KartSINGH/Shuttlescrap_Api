@@ -128,7 +128,7 @@ router.post('/submit_phone',(request, response) =>{
         phone_cprice:data_body.phone_cprice  
     }).then(function(phone_name){
         if(phone_name){
-        response.send("Data Stored")
+            response.send("Data Stored")
         }else{
             response.send("Error");
         }
@@ -225,7 +225,7 @@ router.post('/submit_user', (request, response) => {
             })
         } else {
 
-            response.send("user exists bro!")
+            response.send("user exists!")
         }
     })
 
@@ -293,10 +293,7 @@ router.post('/submit_pickup', (request, response) => {
             }
         });
             }
-        });
-           
-        
-       
+        });  
     })
 })
 
@@ -411,6 +408,44 @@ router.post('/user', (request, response) => {
     }).then((user) => {
         if (user) {
             response.send(user);
+        } else {
+            response.send("error")
+        }
+    })
+})
+
+//getting user id for password
+router.post('/forgot_password', (request, response) => {
+    data_body = request.body
+    user.find({
+        where: {
+            user_email: data_body.user_email
+        }
+    }).then((user) => {
+        if (user) {
+             
+                var transporter = nodemailer.createTransport({
+
+                    service: 'Gmail',
+                    auth: {
+                        user: 'kart.singh15@gmail.com',
+                        pass: 'dragonballzee'
+                    },
+                });
+                var text = "Password: " + user.user_password ;
+                var mailOptions = {
+                    to: user.user_email,
+                    from: 'info@scrapp.in',
+                    subject: 'ShuttleScrap || Forget Password',
+                    text: text
+                }
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        response.send(error)
+                    } else {
+                        response.send('email sent');
+                    }
+                });
         } else {
             response.send("error")
         }
