@@ -14,7 +14,7 @@ app.use(bodyparser.urlencoded({
 }))
 
 app.get('/', (request, response) => {
-    resonse.send("API is working!")
+    response.send("API is working!")
 })
 
 app.use('/register', require('./models/user.js'));

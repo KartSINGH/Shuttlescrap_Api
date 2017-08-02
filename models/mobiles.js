@@ -13209,20 +13209,20 @@ router.get('/get_mobile_brands', (request, response) => {
                 var already_present=false;
                 if(i==0){
                     brands[i] = mobiles[i].brand_name
-                    console.log("first stored");
+                  
                 }
                 
                 for(var j=0;j<i;j++){
-                    console.log("value of j "+ j)
+                   
                     if(brands[j]==mobiles[i].brand_name){
-                        console.log("matched brand name");
+                       
                         already_present=true;
                     }else{
                         if(j==i-1 && already_present==false){
                             brands[brands.length]=mobiles[i].brand_name
-                            console.log(brands[brands.length-1]+" phone stored")
+                           
                         }else{
-                            console.log("passed to next j value")
+                           
                         }
                     }
                 }
