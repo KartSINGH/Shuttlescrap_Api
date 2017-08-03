@@ -13190,13 +13190,27 @@ router.get('/submit_mobiles', (request, response) => {
 
 });
 
-/*****  Route for fetching all ac info at once ******/
+/*****  Route for fetching all mobiles info at once ******/
 
 router.get('/all_mobiles', (request, response) => {
     mobiles.findAll()
         .then((mobil) => {
             console.log("ok");
             response.send(mobil);
+
+        });
+});
+/*****  Route for fetching all mobiles of one brand ******/
+
+router.post('/get_mobile_from_brand', (request, response) => {
+    mobiles.findAll({
+        where:{
+            brand_name:request.body.brand_name
+        }
+    })
+     .then((mobile_data) => {
+            console.log("ok");
+            response.send(mobile_data);
 
         });
 });
