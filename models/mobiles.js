@@ -13223,18 +13223,13 @@ router.get('/get_mobile_brands', (request, response) => {
                 var already_present=false;
                 if(i==0){
                     brands[i] = mobiles[i].brand_name
-                  
                 }
-                
                 for(var j=0;j<i;j++){
-                   
                     if(brands[j]==mobiles[i].brand_name){
-                       
                         already_present=true;
                     }else{
                         if(j==i-1 && already_present==false){
-                            brands[brands.length]=mobiles[i].brand_name
-                           
+                            brands[brands.length]=mobiles[i].brand_name 
                         }else{
                            
                         }
@@ -13244,4 +13239,98 @@ router.get('/get_mobile_brands', (request, response) => {
             response.send(brands);
         });
 });
+//route for getting number of devices in each brand
+router.get('/get_count',(request,response)=>{
+    var brands=[
+    "Xiaomi",
+    "OPPO",
+    "Apple",
+    "Vivo",
+    "Samsung",
+    "Micromax",
+    "Honor",
+    "Panasonic",
+    "YU",
+    "Sony",
+    "ASUS",
+    "Gionee",
+    "Lenovo",
+    "Nokia",
+    "LYF",
+    "Huawei",
+    "HTC",
+    "Motorola",
+    "Coolpad",
+    "BlackBerry",
+    "Lava",
+    "Intex",
+    "LG",
+    "Google",
+    "Karbonn",
+    "Microsoft",
+    "nubia",
+    "OnePlus",
+    "Swipe",
+    "Xolo",
+    "Champion",
+    "JIVI",
+    "CAT",
+    "Videocon",
+    "iBall",
+    "LeEco",
+    "Acer",
+    "Celkon",
+    "ZTE",
+    "HP",
+    "Meizu",
+    "M-Tech",
+    "InFocus",
+    "Alcatel",
+    "ZOPO",
+    "Spice",
+    "Obi",
+    "Onida",
+    "Xccess",
+    "Wynncom",
+    "Idea",
+    "Zen",
+    "OptimaSmart",
+    "Salora",
+    "Hyve",
+    "SWINGTEL",
+    "MTS",
+    "Fly",
+    "Philips",
+    "Zync",
+    "Josh",
+    "Kestrel"
+]
+var a =[]
+var k = 0
+var check = false;
+for(var i=0;i<brands.length;i++){
+    mobiles.findAll({
+        where:{
+            brand_name:brands[i]
+        }
+    }).then((mobiles)=>{
+        a[k]=mobiles.length +" "+ mobiles[0].brand_name
+        
+        k=k+1;
+    })
+    .then(()=>{
+        console.log("length of a "+a.length)
+        if(a.length==62 && check==false){
+            response.send(a)
+            check=true
+        }  else{
+            console.log("not sending response")
+        }
+    })
+    .catch((error)=>{
+        response.send(error)
+    })
+}
+
+})
 module.exports = router;
