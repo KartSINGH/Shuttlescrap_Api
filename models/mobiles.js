@@ -13314,7 +13314,7 @@ for(var i=0;i<brands.length;i++){
             brand_name:brands[i]
         }
     }).then((mobiles)=>{
-        a[k]=mobiles.length +" "+ mobiles[0].brand_name
+        a[k]=mobiles.length+","+mobiles[0].brand_name
         
         k=k+1;
     })
