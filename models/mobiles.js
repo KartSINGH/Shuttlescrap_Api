@@ -13214,6 +13214,19 @@ router.post('/get_mobile_from_brand', (request, response) => {
 
         });
 });
+/*** Route for fetching single mobile by id */
+router.post('/get_single_mobile',(request,response)=>{
+    mobiles.findAll({
+        where:{
+            id:request.body.id
+        }
+    }).then((mobiles)=>{
+        console.log(mobiles);
+        response.send(mobiles);
+    }).catch((error)=>{
+        alert(error)
+    })
+})
 /***  Route for getting all brands available ***/
 router.get('/get_mobile_brands', (request, response) => {
     mobiles.findAll()
