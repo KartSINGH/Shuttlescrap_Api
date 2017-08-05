@@ -3,7 +3,6 @@ var router = require('express').Router(),
     nodemailer = require('nodemailer'),
     sequelize = connection.sequelize,
     wellknown = require('nodemailer-wellknown'),
-
     ac = connection.seq.define('ac', {
         id: {
             type: sequelize.INTEGER,
@@ -18,7 +17,6 @@ var router = require('express').Router(),
             type: sequelize.STRING,
             allowNull: true,
         },
-
         image: {
             type: sequelize.STRING,
             allowNull: true,
@@ -35,11 +33,8 @@ var router = require('express').Router(),
         freezeTableName: true,
         timestamps: true
     });
-
-
 ac.sync();
 /*****  Route for storing AC Information *****/
-
 router.get('/submit_ac', (request, response) => {
     var data_body = [{
             "price": "\nRs 34,791\n - ",
@@ -821,20 +816,20 @@ router.get('/all_ac', (request, response) => {
 });
 /*****  Route for fetching all ac of one brand ******/
 
-router.post('/get_mobile_from_brand', (request, response) => {
+router.post('/get_ac_from_brand', (request, response) => {
     ac.findAll({
             where: {
                 brand_name: request.body.brand_name
             }
         })
-        .then((mobile_data) => {
+        .then((ac_data) => {
             console.log("ok");
-            response.send(mobile_data);
+            response.send(ac_data);
 
         });
 });
-/*** Route for fetching single mobile by id */
-router.post('/get_single_mobile', (request, response) => {
+/*** Route for fetching single ac by id */
+router.post('/get_single_ac', (request, response) => {
     ac.findAll({
         where: {
             id: request.body.id
@@ -847,7 +842,7 @@ router.post('/get_single_mobile', (request, response) => {
     })
 })
 /***  Route for getting all brands available ***/
-router.get('/get_mobile_brands', (request, response) => {
+router.get('/get_ac_brands', (request, response) => {
     ac.findAll()
         .then(function (ac) {
             var brands = []
