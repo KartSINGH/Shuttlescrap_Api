@@ -592,6 +592,5 @@ router.get('/get_count', (request, response) => {
                 response.send(error)
             })
     }
-
 })
 module.exports = router;
