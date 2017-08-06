@@ -21,7 +21,9 @@ app.use('/register', require('./models/user.js'));
 app.use('/laptop', require('./models/laptop.js'));
 app.use('/zone_data', require('./models/zones.js'));
 app.use('/ac', require('./models/ac.js'));
+app.use('/tv', require('./models/tv.js'));
 app.use('/mobiles', require('./models/mobiles.js'));
+app.use('/tablets', require('./models/tablets.js'));
 app.use('/hospitals', require('./models/hospitals.js'));
 
 app.listen(8886, function () {
