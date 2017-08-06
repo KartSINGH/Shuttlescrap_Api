@@ -24,6 +24,7 @@ app.use('/ac', require('./models/ac.js'));
 app.use('/tv', require('./models/tv.js'));
 app.use('/mobiles', require('./models/mobiles.js'));
 app.use('/tablets', require('./models/tablets.js'));
+app.use('/fridge', require('./models/fridge.js'));
 app.use('/hospitals', require('./models/hospitals.js'));
 
 app.listen(8886, function () {
