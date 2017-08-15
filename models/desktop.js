@@ -445,7 +445,7 @@ router.get('/submit_desktop', (request, response) => {
             "product_name": "LG 22CV241"
         }
     ]
-    console.log("Entering Data");
+   
     var a = {
         product_name: '',
         image: '',
@@ -459,7 +459,7 @@ router.get('/submit_desktop', (request, response) => {
         var product_name = data_body[i].product_name;
         var image = data_body[i].image;
         var brand_name = data_body[i].product_name.split(' ');
-        console.log("brand is " + brand_name);
+       
         var brand_name1 = brand_name[0];
         var description = data_body[i].desc[0] + data_body[i].desc[1] + data_body[i].desc[2];
         if (price[1] != "-" && product_name != "-" && image != "-") {
@@ -500,7 +500,7 @@ router.get('/submit_desktop', (request, response) => {
 router.get('/all_desktop', (request, response) => {
     desktop.findAll()
         .then((desktop) => {
-            console.log("ok");
+           
             response.send(desktop);
 
         });
@@ -514,7 +514,7 @@ router.post('/get_desktop_from_brand', (request, response) => {
             }
         })
         .then((desktop_data) => {
-            console.log("ok");
+           
             response.send(desktop_data);
 
         });
@@ -526,7 +526,7 @@ router.post('/get_single_desktop', (request, response) => {
             id: request.body.id
         }
     }).then((desktop) => {
-        console.log(desktop);
+       
         response.send(desktop);
     }).catch((error) => {
         alert(error)
@@ -580,7 +580,7 @@ router.get('/get_count', (request, response) => {
                 k = k + 1;
             })
             .then(() => {
-                console.log("length of a " + a.length)
+                
                 if (a.length == 5 && check == false) {
                     response.send(a)
                     check = true

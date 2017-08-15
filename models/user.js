@@ -71,7 +71,11 @@ user_request = connection.seq.define('user_request', {
     },
     paytm_number: {
         type:sequelize.STRING,
-        allowNull:false
+        allowNull:true
+    },
+    device_details: {
+        type:sequelize.STRING,
+        allowNull:true
     },
     bankaccount_details: {
         type: sequelize.STRING,
@@ -121,7 +125,7 @@ phones.sync();
 //Route for storing phone info
 router.post('/submit_phone',(request, response) =>{
     data_body = request.body;
-    console.log("Entering Data");
+  
     phones.create({
         phone_id:data_body.phone_id,
         phone_name:data_body.phone_name,
@@ -141,7 +145,7 @@ router.post('/submit_phone',(request, response) =>{
 router.get('/all_phones',(request, response)=>{
     phones.findAll()
     .then((phones)=>{
-         console.log("ok");
+         
         response.send(phones);
        
     });
@@ -169,9 +173,6 @@ router.post('/get_mobile_by_name',(request, response)=>{
 //Route for submitting user deatils for registration
 router.post('/submit_user', (request, response) => {
     data_body = request.body;
-    console.log(data_body);
-    console.log("checkpoint1" + data_body.user_email);
-    console.log(user);
     var check = false;
 
     user.find({
@@ -182,8 +183,7 @@ router.post('/submit_user', (request, response) => {
     }).then((user) => {
         if (user) {
             check = false;
-            console.log("check1" + check);
-            console.log("checkpoint2" + data_body.user_email);
+           
             response.send("Email id exists.Please login")
         } else {
             check = true;
@@ -307,7 +307,7 @@ router.post('/booking_history', (request, response) => {
             user_email: request.body.user_email
         }
     }).then((user_request) => {
-        console.log(user_request);
+        
         response.send(user_request);
 
     })
@@ -446,11 +446,11 @@ router.post('/forgot_password', (request, response) => {
                     if (error) {
                         response.send(error)
                     } else {
-                        response.send('email sent');
+                        response.send('Kindly Check Your Email for further Process');
                     }
                 });
         } else {
-            response.send("error")
+            response.send("Mentioned Email does not exist")
         }
     })
 })
