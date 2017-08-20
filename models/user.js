@@ -224,7 +224,7 @@ router.post('/submit_pickup', (request, response) => {
             if (error) {
                 response.send(error)
             } else {
-                response.send('Admin Sent');
+                response.send(user_name);
             }
         });
             }
