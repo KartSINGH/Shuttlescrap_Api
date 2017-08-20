@@ -182,8 +182,8 @@ router.post('/submit_pickup', (request, response) => {
         paytm_number:data_body.paytm_number,
         device_details:data_body.device_details,
         product_id:data_body.report_id
-    }).then(function (user_name) {
-        var name = user_name;
+    }).then(function (user_request) {
+        var name = user_request;
         var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+"kg is to be picked up from " + name.res_address +" on "+name.time;
          var text = "Greetings " + name.user_name + " from ShuttleScrap team! " + "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
         var transporter = nodemailer.createTransport({
