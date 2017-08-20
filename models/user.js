@@ -85,6 +85,10 @@ user_request = connection.seq.define('user_request', {
         type: sequelize.STRING,
         allowNull: true
     },
+    product_id: {
+        type: sequelize.STRING,
+        allowNull: true
+    },
     booking_status: {
         type: sequelize.STRING,
         allowNull: false
@@ -93,83 +97,10 @@ user_request = connection.seq.define('user_request', {
     freezeTableName: true,
     timestamps: true
 })
- phones = connection.seq.define('phones', {
-        phone_id: {
-            type: sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        phone_name: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
-        phone_brand: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
-        phone_image: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
-        phone_cprice: {
-            type: sequelize.STRING,
-            allowNull: false,
-        },
-    }, {
-        freezeTableName: true,
-        timestamps: true
-    })
+ 
 user.sync();
 user_request.sync();
-phones.sync();
-//Route for storing phone info
-router.post('/submit_phone',(request, response) =>{
-    data_body = request.body;
-  
-    phones.create({
-        phone_id:data_body.phone_id,
-        phone_name:data_body.phone_name,
-        phone_brand:data_body.phone_brand,
-        phone_image:data_body.phone_image,
-        phone_cprice:data_body.phone_cprice  
-    }).then(function(phone_name){
-        if(phone_name){
-            response.send("Data Stored")
-        }else{
-            response.send("Error");
-        }
-    })
-});
 
-//Route for getting all mobile names
-router.get('/all_phones',(request, response)=>{
-    phones.findAll()
-    .then((phones)=>{
-         
-        response.send(phones);
-       
-    });
-});
-//Router for getting mobiles of a specific brand
-router.post('/get_mobiles',(request, response)=>{
-    phones.findAll({
-        where:{
-            phone_brand:request.body.phone_brand
-        }
-    }).then(function(phones){
-        response.send(phones);
-    })
-})
-//route for getting phone using name
-router.post('/get_mobile_by_name',(request, response)=>{
-    phones.findAll({
-        where:{
-            phone_name:request.body.phone_name
-        }
-    }).then(function(phones){
-        response.send(phones);
-    })
-})
 //Route for submitting user deatils for registration
 router.post('/submit_user', (request, response) => {
     data_body = request.body;
@@ -249,11 +180,11 @@ router.post('/submit_pickup', (request, response) => {
         ifsc_details: data_body.ifsc_details,
         booking_status: data_body.booking_status,
         paytm_number:data_body.paytm_number,
-        device_details:'samsung'
+        device_details:data_body.device_details
     }).then(function (user_name) {
         var name = user_name;
         var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+"kg is to be picked up from " + name.res_address +" on "+name.time;
-         var text = "Greetings " + name.user_name + " from ScrApp team! " + "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
+         var text = "Greetings " + name.user_name + " from ShuttleScrap team! " + "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
         var transporter = nodemailer.createTransport({
 
             service: 'Godaddy',

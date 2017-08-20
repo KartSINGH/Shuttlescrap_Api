@@ -43,9 +43,90 @@ var router = require('express').Router(),
         freezeTableName: true,
         timestamps: true
     });
+     mobile_report = connection.seq.define('mobile_report', {
+        id: {
+            type: sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        mobile_working_status: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        mobile_age: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        mobile_screen_status: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+
+        isBatteryFaulty: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+         isSpeakerFaulty: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        isVolumeFaulty: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        isPowerFaulty: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        isCameraFaulty: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        isChargerFaulty: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        charger: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        earphones: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        bill: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        warranty: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        box: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        battery: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+        mobile_condition: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+       device_price: {
+            type: sequelize.STRING,
+            allowNull: true,
+        },
+
+    }, {
+        freezeTableName: true,
+        timestamps: true
+    });
 
 
 mobiles.sync();
+mobile_report.sync();
 /*****  Route for storing AC Information *****/
 
 router.get('/submit_mobiles', (request, response) => {
@@ -14721,4 +14802,34 @@ router.get('/get_count', (request, response) => {
     }
 
 })
+
+router.post('/submit_mobile_condition', (request, response) => {
+    data_body = request.body;
+    mobile_report.create({
+        mobile_working_status:data_body.mobile_working_status,
+        mobile_age:data_body.mobile_age,
+        mobile_screen_status:data_body.mobile_screen_status,
+        isBatteryFaulty:data_body.isBatteryFaulty,
+        isSpeakerFaulty:data_body.isSpeakerFaulty,
+        isVolumeFaulty:data_body.isVolumeFaulty,
+        isPowerFaulty:data_body.isPowerFaulty,
+        isCameraFaulty:data_body.isCameraFaulty,
+        isChargerFaulty:data_body.isChargerFaulty,
+        charger:data_body.charger,
+        earphones:data_body.earphones,
+        bill:data_body.bill,
+        box:data_body.box,
+        battery:data_body.battery,
+        warranty:data_body.warranty,
+        mobile_condition:data_body.mobile_condition,
+        device_price:data_body.device_price
+    }).then(function (mobile_report) {
+        if (mobile_report) {
+            response.send(mobile_report);
+        } else {
+            response.send("Error");
+        }
+    })
+});
+
 module.exports = router;
