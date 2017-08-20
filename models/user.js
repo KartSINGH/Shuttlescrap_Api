@@ -181,7 +181,7 @@ router.post('/submit_pickup', (request, response) => {
         booking_status: data_body.booking_status,
         paytm_number:data_body.paytm_number,
         device_details:data_body.device_details,
-        product_id:data_body.product_id
+        product_id:data_body.report_id
     }).then(function (user_name) {
         var name = user_name;
         var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+"kg is to be picked up from " + name.res_address +" on "+name.time;
