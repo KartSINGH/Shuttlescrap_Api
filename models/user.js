@@ -183,6 +183,7 @@ router.post('/submit_pickup', (request, response) => {
         device_details:data_body.device_details,
         product_id:data_body.report_id
     }).then(function (user_request) {
+        response.send(user_request);
         var name = user_request;
         var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+"kg is to be picked up from " + name.res_address +" on "+name.time;
          var text = "Greetings " + name.user_name + " from ShuttleScrap team! " + "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
@@ -225,7 +226,7 @@ router.post('/submit_pickup', (request, response) => {
             if (error) {
                 response.send(error)
             } else {
-                response.send(user_name);
+                
             }
         });
             }
