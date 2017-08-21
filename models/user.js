@@ -135,13 +135,13 @@ router.post('/submit_user', (request, response) => {
 
                 var transporter = nodemailer.createTransport({
 
-                    service: 'Gmail',
-                    auth: {
-                        user: 'kart.singh15@gmail.com',
-                        pass: 'dragonballzee'
-                    },
+                service: 'Godaddy',
+                 auth: {
+                    user: 'info@scrapp.in',
+                    pass: 'Rohan#123'
+                },
                 });
-                var text = "Greetings " + name.user_name + " from ScrApp team! " + "Your account has been succssfully opened with us.#keeprecycling #shuttlescrap";
+                var text = "Greetings " + name.user_name + " from ShuttleScrap team! " + "Your account has been succssfully opened with us.#keeprecycling #shuttlescrap";
                 var mailOptions = {
                     to: name.user_email,
                     from: 'info@scrapp.in',
@@ -186,7 +186,7 @@ router.post('/submit_pickup', (request, response) => {
         response.send(user_request);
         var name = user_request;
         var text1 = "Order has been booked by " + name.user_name + " ! "+name.scrap_amount+"kg is to be picked up from " + name.res_address +" on "+name.time;
-         var text = "Greetings " + name.user_name + " from ShuttleScrap team! " + "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
+        var text = "Greetings " + name.user_name + " from ShuttleScrap team! " +"Booking ID is "+name.booking_id+". "+ "Your request has been booked.You can contact our customer care team for clarifications and modifcations in your request.Thank You for choosing us.#keeprecycling #shuttlescrap";
         var transporter = nodemailer.createTransport({
 
             service: 'Godaddy',
@@ -199,7 +199,7 @@ router.post('/submit_pickup', (request, response) => {
         var mailOptions = {
             to: name.user_email,
             from: 'info@scrapp.in',
-            subject: 'ScrApp || Srcap Pickup Response',
+            subject: 'Shuttlescrap || Scrap Pickup Response',
             text: text
         }
         
